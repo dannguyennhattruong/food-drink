@@ -1,0 +1,30 @@
+// import styled from 'styled-components';
+
+// export const Test = styled.div`
+//  display: flex;
+// `;
+//
+.HeaderBarWrapper {
+    height: 56px;
+    width: 100%;
+    // background :#2C2C34;
+    padding:10px;
+    box-shadow: 1px -2px 0px -3px gray;
+    display: flex;
+    
+    .name {
+        flex:3;
+        height: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .toolbar {
+        flex:1;
+        height: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+}

@@ -1,0 +1,1 @@
+export const CHANGE_THEME_APP = '[APP] CHANGE THEME APP';

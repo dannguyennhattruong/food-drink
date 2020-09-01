@@ -3,11 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { Provider as AppProvider } from './store/app/appContext';
+import { BrowserRouter } from 'react-router-dom';
+import 'antd/dist/antd.css';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <AppProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </AppProvider>,
   document.getElementById('root')
 );
 

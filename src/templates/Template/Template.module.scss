@@ -1,0 +1,24 @@
+// import styled from 'styled-components';
+
+// export const Test = styled.div`
+//  display: flex;
+// `;
+//
+
+.TemplateWrapper {
+    width: 100%;
+    min-height: 100%;
+    // background: #0A0B18;
+    display: flex;
+    flex-flow: row;
+    .rightSide {
+        flex: 5;
+        min-height: 100%;
+        display: flex;
+        flex-flow: column;
+        .content {
+            flex-grow: 1;
+            width: 100%;
+        }
+    }
+}
