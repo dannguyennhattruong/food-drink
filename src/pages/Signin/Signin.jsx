@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
-import {Button} from 'antd'
+import { Button, Modal, Typography, message } from 'antd'
 import { sign_up, sign_in } from '../../services/user.service'
-
+const { Text } = Typography
 
 class Signin extends PureComponent {
   constructor (props) {
@@ -13,15 +13,38 @@ class Signin extends PureComponent {
       isLoading: false,
       password: '',
       status: '',
-      isSignIn: false
+      isSignIn: false,
+      visible: false
     }
+  }
+  showModal = () => {
+    this.setState({
+      visible: true
+    })
+  }
+
+  handleOk = e => {
+    console.log(e)
+    this.setState({
+      visible: false
+    })
+  }
+
+  handleCancel = e => {
+    console.log(e)
+    this.setState({
+      visible: false
+    })
   }
 
   onChangeEmail = e => this.setState({ [e.target.name]: e.target.value })
   onSignUp = () => {
     this.setState({ isLoading: true })
     sign_up(this.state.email).then(res => {
-      console.log(res)
+      message.error(res.data.message)
+      if (res.data.message === 'Thành công') {
+        this.setState({ visible: true })
+      }
       this.setState({ isLoading: false })
     })
   }
@@ -32,12 +55,22 @@ class Signin extends PureComponent {
   render_signup = () => {
     return (
       <div>
-        <h3>
-          Sign me up{' '}
+        <Modal
+          title='Thông báo'
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <p>{`Xin hãy kiểm tra thư điện tử của bạn ${this.state.email}, sau đó quay lại và dùng email và mật khẩu để đăng nhập`}</p>
+          <p>
+            Trong trường hợp không đăng nhập được xin hãy liên hệ địa chỉ email
+            : nhattruong2513@gmail.com
+          </p>
           <span role='img' aria-label=''>
             🔥🔥🔥
           </span>
-        </h3>
+        </Modal>
+        <h3>Sign me up </h3>
         <label htmlFor='email' style={{ margin: '5px' }}>
           Email
         </label>
@@ -74,7 +107,11 @@ class Signin extends PureComponent {
       this.setState({ status: res.data.status })
       if (res.data.status === 'OK') {
         localStorage.setItem('jwt', Date.now())
-        window.location.reload();
+        window.location.reload()
+      } else {
+        message.warn(`
+          Email và mật khẩu không hợp lệ 🤣🤣🤣🤣
+        `)
       }
       this.setState({ isLoading: false })
     })
@@ -145,6 +182,14 @@ class Signin extends PureComponent {
           padding: '70px'
         }}
       >
+        <Text
+          keyboard
+          strong
+          style={{ fontSize: '50px', margin: '50px', color: 'blue' }}
+        >
+          DATA CENTER - FOOD ADMIN
+        </Text>
+        <br />
         {!this.state.isSignIn ? this.render_signup() : this.render_signin()}
       </div>
     )
