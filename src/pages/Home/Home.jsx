@@ -10,6 +10,7 @@ import {
 import { theme } from '../../contanst'
 import { list__foods } from '../../services/food.service'
 import { list__users } from '../../services/user.service'
+import { list__categories } from '../../services/category.service'
 
 const { Meta } = CardANTD
 
@@ -21,17 +22,21 @@ class Home extends PureComponent {
       hasError: false,
       countFood: 0,
       countDrink: 0,
-      countUser: 0
+      countUser: 0,
+      listFood: [],
+      listCategories: []
     }
   }
 
   componentDidMount () {
+    list__categories().then(res => this.setState({ listCategories: res }))
     list__foods().then(res => {
       const data = res.data
       const foodCount = data.filter(d => d.category === 'FAST FOOD').length
       this.setState({
         countFood: foodCount,
-        countDrink: data.length - foodCount
+        countDrink: data.length - foodCount,
+        listFood: data
       })
     })
     list__users().then(res => {
@@ -41,41 +46,10 @@ class Home extends PureComponent {
     })
   }
 
- 
-
-  category = [
-    {
-      name: 'FASTFOOD',
-      src: require('../../assets/images/fastfood.jpg')
-    },
-    {
-      name: 'DRINK',
-      src: require('../../assets/images/drink.jpg')
-    },
-    {
-      name: 'TRANDITIONAL FOOD',
-      src: require('../../assets/images/tfood.jpg')
-    }
-  ]
-
-  foods = [
-    {
-      name: 'foodA',
-      src: require('../../assets/images/fooda.jpg')
-    },
-    {
-      name: 'foodB',
-      src: require('../../assets/images/foodb.jpg')
-    },
-    {
-      name: 'foodC',
-      src: require('../../assets/images/foodc.jpg')
-    }
-  ]
 
   render () {
     const themeProps = this.props.theme
-    const currentTheme = themeProps === 'light' ? theme[1] : theme[0];
+    const currentTheme = themeProps === 'light' ? theme[1] : theme[0]
     const cards = [
       {
         name: 'FOOD',
@@ -93,6 +67,17 @@ class Home extends PureComponent {
         color: '#778899'
       }
     ]
+    const category_new = this.state.listCategories.map((e, i) => {
+      return {
+        name: e.name,
+        src: require('../../assets/images/fastfood.jpg')
+      }
+    })
+
+    const food_new = this.state.listFood.map(e => ({
+      name: e.name,
+      src: e?.images[0]
+    }))
     if (this.state.hasError) {
       return <h1>Something went wrong.</h1>
     }
@@ -109,7 +94,7 @@ class Home extends PureComponent {
           <h1 style={{ color: currentTheme.color }}>New Categories </h1>
         </div>
         <div className={styles.NewCategoryArea}>
-          {this.category.map((e, i) => {
+          {category_new.map((e, i) => {
             return (
               <CardANTD
                 key={i}
@@ -128,13 +113,25 @@ class Home extends PureComponent {
           <h1 style={{ color: currentTheme.color }}>New Foods </h1>
         </div>
         <div className={styles.NewCategoryArea}>
-          {this.foods.map((e, i) => {
+          {food_new.map((e, i) => {
             return (
               <CardANTD
                 key={i}
                 style={{ flex: 1, margin: '20px' }}
                 cover={
-                  <img alt='example' src={e.src} style={{ height: '200px' }} />
+                  e.src ? (
+                    <img
+                      alt='example'
+                      src={e.src}
+                      style={{ height: '200px' }}
+                    />
+                  ) : (
+                    <img
+                      alt='example'
+                      src={require('../../assets/images/foodc.jpg')}
+                      style={{ height: '200px' }}
+                    />
+                  )
                 }
                 actions={[
                   <SettingOutlined key='setting' />,

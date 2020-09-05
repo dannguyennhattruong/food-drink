@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Button, Modal, Typography, message } from 'antd'
-import { sign_up, sign_in } from '../../services/user.service'
+import { sign_up, sign_in, generateToken } from '../../services/user.service'
 const { Text } = Typography
 
 class Signin extends PureComponent {
@@ -110,7 +110,7 @@ class Signin extends PureComponent {
     sign_in(this.state.email, this.state.password).then(res => {
       this.setState({ status: res.data.status })
       if (res.data.status === 'OK') {
-        localStorage.setItem('jwt', Date.now())
+        localStorage.setItem('jwt', generateToken(res.data.info.id))
         window.location.reload()
       } else {
         message.warn(res.data.message)

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import styles from './HeaderBar.module.scss'
 import { Context as ThemeContext } from '../../../../store/app/appContext'
-import { Switch } from 'antd'
+import { Switch, Typography, Space } from 'antd'
 import { Button, Tooltip } from 'antd'
 import { AlignLeftOutlined, LogoutOutlined } from '@ant-design/icons'
 
@@ -45,15 +45,38 @@ class HeaderBar extends PureComponent {
       <div className={styles.HeaderBarWrapper} style={{ ...style }}>
         <div className={styles.name}>
           <Tooltip title='Fullscreen'>
-            <Button type='primary' shape='circle' icon={<AlignLeftOutlined />} onClick={() => toggle_sidebar()}/>
+            <Button
+              type='primary'
+              shape='circle'
+              icon={<AlignLeftOutlined />}
+              onClick={() => toggle_sidebar()}
+            />
           </Tooltip>
-          <span style={{marginLeft:'10px',fontWeight:'600'}}>  DASHBOARD</span>
+          <span style={{ marginLeft: '10px', fontWeight: '600' }}>
+            {' '}
+            DASHBOARD
+          </span>
         </div>
         <div className={styles.toolbar}>
-          <Switch checked={this.state.isCheckSwitch} onChange={this.onChange} style={{marginRight : '10px'}}/>
-          <Tooltip title='Logout'>
-            <Button type='primary' shape='circle' icon={<LogoutOutlined />} onClick={() => {localStorage.clear(); window.location.reload()}}/>
-          </Tooltip>
+          <Space>
+            <Typography code>{this.props.user?.email}</Typography>
+            <Switch
+              checked={this.state.isCheckSwitch}
+              onChange={this.onChange}
+              style={{ marginRight: '10px' }}
+            />
+            <Tooltip title='Logout'>
+              <Button
+                type='primary'
+                shape='circle'
+                icon={<LogoutOutlined />}
+                onClick={() => {
+                  localStorage.clear()
+                  window.location.reload()
+                }}
+              />
+            </Tooltip>
+          </Space>
         </div>
       </div>
     )

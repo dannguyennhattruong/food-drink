@@ -1,4 +1,6 @@
 import axios from 'axios';
+var jwt = require('jsonwebtoken');
+export const SECRET_KEY = 'WINTER_IS_COMING';
 
 const instance = axios.create({
     baseURL: 'https://food-app-2020.herokuapp.com/'
@@ -38,4 +40,8 @@ export const update__user = async (id, data) => {
     } catch (error) {
         return error;
     }
+}
+
+export const generateToken = (id) => {
+    return jwt.sign({ id, time : Date.now() }, SECRET_KEY);
 }
