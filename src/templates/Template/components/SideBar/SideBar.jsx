@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import styels from './SideBar.module.scss'
 import { Context as ThemeContext } from '../../../../store/app/appContext'
+import { private__routes } from '../../../../routes/config.routes'
 
 const NavigationBar = ({ title, onClick, active }) => {
   const styles = active
@@ -20,20 +21,13 @@ const NavigationBar = ({ title, onClick, active }) => {
   )
 }
 
-const menu = [
-  {
-    id: '/home',
-    title: 'HOME'
-  },
-  {
-    id: '/food&drink',
-    title: 'FOOD & DRINK'
-  },
-  {
-    id: '/category',
-    title: 'CATEGORY'
+
+const menu_new = private__routes.map((e,i) => {
+  return {
+    id : e.path,
+    title : e.path === '/food&drink' ? 'FOOD & DRINK'  : e.path.replace('/','').toUpperCase()
   }
-]
+})
 
 const themeSideBar = [
   {
@@ -59,7 +53,7 @@ class SideBar extends PureComponent {
   }
 
   componentDidMount () {
-    console.log(this.props)
+    // console.log(this.props)
     if (this.props.location.pathname) {
       this.setState({
         pathname: this.props.location.pathname
@@ -84,7 +78,7 @@ class SideBar extends PureComponent {
           <p>FOOD Management</p>
         </div>
         <div style={{ margin: '50px' }} />
-        {menu.map((e, i) => {
+        {menu_new.map((e, i) => {
           return (
             <NavigationBar
               key={i}

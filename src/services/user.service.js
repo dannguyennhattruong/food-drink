@@ -13,7 +13,7 @@ export const sign_up = async (email) => {
     }
 }
 
-export const sign_in = async (email,password) => {
+export const sign_in = async (email, password) => {
     try {
         const sign_up = await instance.post('signin', { email, password });
         return sign_up;
@@ -22,9 +22,18 @@ export const sign_in = async (email,password) => {
     }
 }
 
-export const list__users = async (email,password) => {
+export const list__users = async (email, password) => {
     try {
-        const users = await instance.post('users', { });
+        const users = await instance.post('users', {});
+        return users;
+    } catch (error) {
+        return error;
+    }
+}
+
+export const update__user = async (id, data) => {
+    try {
+        const users = await instance.post('user-update', { id, ...data });
         return users;
     } catch (error) {
         return error;

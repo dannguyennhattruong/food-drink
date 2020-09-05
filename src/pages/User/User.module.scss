@@ -1,0 +1,16 @@
+// import styled from 'styled-components';
+
+// export const Test = styled.div`
+//  display: flex;
+// `;
+//
+
+.UserWrapper {
+    width: 100%;
+    min-height: 200px;
+    padding: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-flow: column;
+}

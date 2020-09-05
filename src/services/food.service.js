@@ -21,3 +21,12 @@ export const delete__food = async (id) => {
         return error;
     }
 }
+
+export const create__food = async (data) => {
+    try {
+        const food__create = instance.post('food', { ...data });
+        return (await food__create).data;
+    } catch (error) {
+        return error;
+    }
+}

@@ -7,8 +7,8 @@ import { Provider as AppProvider } from './store/app/appContext';
 import { BrowserRouter } from 'react-router-dom';
 import 'antd/dist/antd.css';
 
-console.log = () => {}
-console.error = () => {}
+// console.log = () => {}
+// console.error = () => {}
 console.warn = () => {}
 
 ReactDOM.render(

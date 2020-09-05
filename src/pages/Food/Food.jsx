@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react'
-import { Table, Tag, Image, Switch, message, Button } from 'antd'
+import { Table, Tag, Image, Switch, message, Button, Divider } from 'antd'
 import styles from './Food.module.scss'
 import { list__foods, delete__food } from '../../services/food.service'
 import { formatTime } from '../../utils'
 import { Context as AppContext } from '../../store/app/appContext'
 import EditFood from './components/EditFood/EditFood'
+import AdvancedSearch from './components/AdvanceSearch/AdvanceSearch'
 
 class Food extends PureComponent {
   static contextType = AppContext
@@ -68,7 +69,7 @@ class Food extends PureComponent {
                 title: k,
                 dataIndex: k,
                 key: k,
-                render: (k,r) => (
+                render: (k, r) => (
                   <div
                     key={r.id}
                     style={{
@@ -112,7 +113,7 @@ class Food extends PureComponent {
                 title: k,
                 dataIndex: k,
                 key: k,
-                render: (k,r) => <p key={r.id}>{formatTime(k)}</p>
+                render: (k, r) => <p key={r.id}>{formatTime(k)}</p>
               }
             }
             if (k === 'isDelete') {
@@ -134,7 +135,7 @@ class Food extends PureComponent {
               title: k,
               dataIndex: k,
               key: k,
-              render:(k,r) => <p key={r.id}>{k}</p>
+              render: (k, r) => <p key={r.id}>{k}</p>
             }
           })
         this.setState({
@@ -152,10 +153,42 @@ class Food extends PureComponent {
     this.refreshPage()
   }
 
-  getAction =(value) => {
-    if(value === 'close') {
+  getAction = value => {
+    if (value === 'close') {
       this.setState({ showEdit: false })
     }
+  }
+
+  cmdRefresh = value => {
+    if (value === 'refresh') {
+      this.refreshPage()
+    }
+  }
+
+  filterData = values => {
+    this.setState({ isLoading: true }, () => {
+      const dataFilter = [...this.state.dataFoods]
+      let resultArray = []
+      if (Object.keys(values).length !== 0) {
+        Object.entries(values).forEach(([key, value]) => {
+          if (value !== undefined) {
+            resultArray = dataFilter.filter(d => {
+              if(key !=='isDelete') {
+                return d[key] === value
+              }
+              else {
+                return d[key].toString() === value
+              }
+            })
+          }
+        })
+      }
+
+      setTimeout(() => {
+        this.setState({ dataFoods: resultArray })
+        this.setState({ isLoading: false })
+      }, 1000)
+    })
   }
 
   render () {
@@ -174,7 +207,12 @@ class Food extends PureComponent {
             ➕
           </span>
         </Button>
-        {this.state.showEdit && <EditFood  action={this.getAction}/>}
+
+        <AdvancedSearch cmdFilter={this.filterData} cmdRefresh={this.cmdRefresh}/>
+        <Divider />
+        {this.state.showEdit && (
+          <EditFood action={this.getAction} command={this.cmdRefresh} />
+        )}
 
         <Table
           style={{ width: '100%' }}

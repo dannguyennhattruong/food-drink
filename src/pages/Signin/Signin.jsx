@@ -41,9 +41,13 @@ class Signin extends PureComponent {
   onSignUp = () => {
     this.setState({ isLoading: true })
     sign_up(this.state.email).then(res => {
-      message.error(res.data.message)
+      
       if (res.data.message === 'Thành công') {
         this.setState({ visible: true })
+        message.success(res.data.message)
+      }
+      else {
+        message.error(res.data.message)
       }
       this.setState({ isLoading: false })
     })
@@ -109,9 +113,7 @@ class Signin extends PureComponent {
         localStorage.setItem('jwt', Date.now())
         window.location.reload()
       } else {
-        message.warn(`
-          Email và mật khẩu không hợp lệ 🤣🤣🤣🤣
-        `)
+        message.warn(res.data.message)
       }
       this.setState({ isLoading: false })
     })
