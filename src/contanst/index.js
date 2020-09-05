@@ -6,7 +6,7 @@ export const theme = [
     },
     {
         id: 'light',
-        background : '#fff',
+        background : '#f5f5f5',
         color: '#0A0B18'
     }
 ]

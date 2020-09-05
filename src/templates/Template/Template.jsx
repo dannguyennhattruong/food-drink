@@ -2,9 +2,11 @@ import React, { PureComponent } from 'react'
 
 import styles from './Template.module.scss'
 import HeaderBar from './components/HeaderBar/HeaderBar'
-import SideBar from './components/SideBar/SideBar'
+import SideBar from './components/SideBar/SideBar';
+import {Context as AppContext} from '../../store/app/appContext';
 
 class Template extends PureComponent {
+  static contextType = AppContext;
   constructor (props) {
     super(props)
 
@@ -14,7 +16,7 @@ class Template extends PureComponent {
   }
 
   componentDidMount () {
-    console.log(this.props)
+    // console.log(this.props)
   }
 
   render () {
@@ -26,7 +28,7 @@ class Template extends PureComponent {
         className={styles.TemplateWrapper}
         style={{ ...this.props.themeNow }}
       >
-        <SideBar {...this.props} />
+        {!this.context.state.isHideSideBar && <SideBar {...this.props} />}
         <div className={styles.rightSide}>
           <HeaderBar {...this.props} />
           <div className={styles.content}>

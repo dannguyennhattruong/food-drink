@@ -1,13 +1,15 @@
 import createDataContext from '../createDataContext'
 import appReducer from './reducers'
-import { change__theme__app } from './actions';
+import * as actions from './actions';
 
 
 const { Provider, Context } = createDataContext(
     appReducer,
-    { change__theme__app},
+    { ...actions},
     {
-        theme : 'light'
+        theme : 'light',
+        info_snackbar : {},
+        isHideSideBar :false
     }
 )
 

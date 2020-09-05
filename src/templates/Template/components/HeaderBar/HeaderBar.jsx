@@ -3,7 +3,7 @@ import styles from './HeaderBar.module.scss'
 import { Context as ThemeContext } from '../../../../store/app/appContext'
 import { Switch } from 'antd'
 import { Button, Tooltip } from 'antd'
-import { AlignLeftOutlined } from '@ant-design/icons'
+import { AlignLeftOutlined, LogoutOutlined } from '@ant-design/icons'
 
 const themeHeader = [
   {
@@ -11,7 +11,7 @@ const themeHeader = [
     color: '#fff'
   },
   {
-    background: '#f5f5f5',
+    background: '#fff',
     color: '#2C2C34'
   }
 ]
@@ -36,8 +36,8 @@ class HeaderBar extends PureComponent {
   }
 
   render () {
-    const { theme } = this.context.state
-    const style = theme === 'light' ? themeHeader[1] : themeHeader[0]
+    const { state, toggle_sidebar } = this.context
+    const style = state.theme === 'light' ? themeHeader[1] : themeHeader[0]
     if (this.state.hasError) {
       return <h1>Something went wrong.</h1>
     }
@@ -45,12 +45,15 @@ class HeaderBar extends PureComponent {
       <div className={styles.HeaderBarWrapper} style={{ ...style }}>
         <div className={styles.name}>
           <Tooltip title='Fullscreen'>
-            <Button type='primary' shape='circle' icon={<AlignLeftOutlined />} />
+            <Button type='primary' shape='circle' icon={<AlignLeftOutlined />} onClick={() => toggle_sidebar()}/>
           </Tooltip>
           <span style={{marginLeft:'10px',fontWeight:'600'}}>  DASHBOARD</span>
         </div>
         <div className={styles.toolbar}>
-          <Switch checked={this.state.isCheckSwitch} onChange={this.onChange} />
+          <Switch checked={this.state.isCheckSwitch} onChange={this.onChange} style={{marginRight : '10px'}}/>
+          <Tooltip title='Logout'>
+            <Button type='primary' shape='circle' icon={<LogoutOutlined />} onClick={() => {localStorage.clear(); window.location.reload()}}/>
+          </Tooltip>
         </div>
       </div>
     )

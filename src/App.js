@@ -2,9 +2,12 @@ import React, { useContext } from 'react';
 import './App.css';
 import { Context as ThemeContext } from './store/app/appContext';
 import { theme } from './contanst';
-import { private__routes } from './routes/config.routes';
+import { private__routes, public__routes } from './routes/config.routes';
 import PrivateLayoutRoute from './routes/private.routes';
-import { Switch } from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
+import { isLogined } from './utils';
+import PublicLayoutRoute from './routes/public.routes';
+
 
 function App() {
   const [themeNow, setThemeNow] = React.useState({
@@ -28,10 +31,18 @@ function App() {
     <div className="App" style={themeNow}>
       <Switch>
         {
-          private__routes.map((e, i) => {
+          !isLogined() && public__routes.map((e, i) => {
+            return <PublicLayoutRoute key={i} path={e.path} component={e.component} exact={e.exact} />
+          })
+        }
+        {/* {!isLogined() && <Redirect to='/signin' />} */}
+
+        {
+          isLogined() && private__routes.map((e, i) => {
             return <PrivateLayoutRoute key={i} path={e.path} component={e.component} exact={e.exact} theme={themes} />
           })
         }
+        {isLogined() ? <Redirect to='/home' /> : <Redirect to='/signin' />}
       </Switch>
     </div>
   );

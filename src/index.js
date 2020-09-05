@@ -7,6 +7,10 @@ import { Provider as AppProvider } from './store/app/appContext';
 import { BrowserRouter } from 'react-router-dom';
 import 'antd/dist/antd.css';
 
+console.log = () => {}
+console.error = () => {}
+console.warn = () => {}
+
 ReactDOM.render(
   <AppProvider>
     <BrowserRouter>
@@ -15,6 +19,7 @@ ReactDOM.render(
   </AppProvider>,
   document.getElementById('root')
 );
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

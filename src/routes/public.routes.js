@@ -1,12 +1,11 @@
 
 import React from 'react';
-import Template from '../templates/Template/Template';
+import styles from './styles.routes.scss';
+import { Route } from 'react-router-dom';
 const PublicLayout = (props) => {
     return (
-            <div className={styles.container} >
-                <Template>
-                    {props.children}
-                </Template>
+            <div className={styles.container}  style={{height:"100%"}}>
+                {props.children}
             </div>
     )
 }
@@ -16,9 +15,8 @@ const PublicLayoutRoute = ({ component: Component, ...rest }) => {
             <PublicLayout
                 {...matchProps}
                 {...rest}>
-                <Component
-                    userId={_getUserId()}
-                    autherize={autherize()} />
+                <Component {...matchProps}
+                {...rest} />
             </PublicLayout>
         )} />
     )

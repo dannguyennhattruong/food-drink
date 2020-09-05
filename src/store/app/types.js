@@ -1,1 +1,4 @@
 export const CHANGE_THEME_APP = '[APP] CHANGE THEME APP';
+export const SHOW_SNACKBAR = '[APP] SHOW SNACKBAR';
+export const CLEAR_SNACKBAR = '[APP] CLEAR SNACKBAR';
+export const TOOGLE_SIDE_BAR = '[APP] TOGGLE SIDE BAR';
