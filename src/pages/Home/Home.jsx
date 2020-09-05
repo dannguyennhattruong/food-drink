@@ -46,7 +46,6 @@ class Home extends PureComponent {
     })
   }
 
-
   render () {
     const themeProps = this.props.theme
     const currentTheme = themeProps === 'light' ? theme[1] : theme[0]
